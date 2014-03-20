@@ -1,47 +1,33 @@
-NewCoin 0.8.x BETA
-====================
+FlutterCoin (Compensation Coin)
 
-Copyright (c) 2009-2013 Bitcoin Developers
-Copyright (c) 2011-2013 NewCoin Developers
+Scrypt Proof of Work/Proof of Stake Hybrid
 
-Distributed under the MIT/X11 software license, see the accompanying
-file COPYING or http://www.opensource.org/licenses/mit-license.php.
-This product includes software developed by the OpenSSL Project for use in the [OpenSSL Toolkit](http://www.openssl.org/). This product includes
-cryptographic software written by Eric Young ([eay@cryptsoft.com](mailto:eay@cryptsoft.com)), and UPnP software written by Thomas Bernard.
+Random Proof of Work Mining Rewards (halving every 525,600 blocks)
 
+	Year #	MIN	MAX			
+	Year 1:	500	5000
+	Year 2: 250	2500
+	Year 3:	125	1250
+	Year 4:	 62	 625
+	Year 5:  31	 312
+	Year 6:	 15	 156
+	Year 7:	  7	  78	
+	Year 8 on: 50
+	
+There are no maximum number of coins, proof of work for the first 7 years is roughly a minimum 500 million and maximum 5 billion.
 
-Intro
----------------------
-NewCoin is a free open source peer-to-peer electronic cash system that is
-completely decentralized, without the need for a central server or trusted
-parties.  Users hold the crypto keys to their own money and transact directly
-with each other, with the help of a P2P network to check for double-spending.
+Proof of Stake Mining
 
+	-Proof of stake interest rate variable 20 - 40 * CENT
 
-Setup
----------------------
-You need the Qt4 run-time libraries to run NewCoin-Qt. On Debian or Ubuntu:
-	`sudo apt-get install libqtgui4`
+Block Hash Mining
 
-Unpack the files into a directory and run:
+	-50% of the proof of work reward to the first match (more details coming)
 
-- bin/32/NewCoin-qt (GUI, 32-bit)
-- bin/32/NewCoind (headless, 32-bit)
-- bin/64/NewCoin-qt (GUI, 64-bit)
-- bin/64/NewCoind (headless, 64-bit)
-
-See the documentation at the [NewCoin Wiki](http://NewCoin.info)
-for help and more information.
+Proof of work block time 1 minute
 
 
-Other Pages
----------------------
-- [Unix Build Notes](build-unix.md)
-- [OSX Build Notes](build-osx.md)
-- [Windows Build Notes](build-msw.md)
-- [Coding Guidelines](coding.md)
-- [Release Process](release-process.md)
-- [Release Notes](release-notes.md)
-- [Multiwallet Qt Development](multiwallet-qt.md)
-- [Unit Tests](unit-tests.md)
-- [Translation Process](translation_process.md)
+Default P2P Port: 7408
+Default RPC Port: 7474
+
+

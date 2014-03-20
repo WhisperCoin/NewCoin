@@ -1,9 +1,9 @@
-Building NewCoin
+Building Bitcoin
 
-See doc/readme-qt.rst for instructions on building NewCoin-Qt,
+See doc/readme-qt.rst for instructions on building Bitcoin QT,
 the intended-for-end-users, nice-graphical-interface, reference
-implementation of NewCoin.
+implementation of Bitcoin.
 
-See doc/build-*.txt for instructions on building NewCoind,
+See doc/build-*.txt for instructions on building bitcoind,
 the intended-for-services, no-graphical-interface, reference
-implementation of NewCoin.
+implementation of Bitcoin.

@@ -1,5 +1,4 @@
 #include "transactiontablemodel.h"
-
 #include "guiutil.h"
 #include "transactionrecord.h"
 #include "guiconstants.h"
@@ -12,11 +11,13 @@
 #include "wallet.h"
 #include "ui_interface.h"
 
+#include <QLocale>
 #include <QList>
 #include <QColor>
 #include <QTimer>
 #include <QIcon>
 #include <QDateTime>
+#include <QtAlgorithms>
 
 // Amount column is right-aligned it contains numbers
 static int column_alignments[] = {
@@ -279,7 +280,7 @@ QString TransactionTableModel::formatTxStatus(const TransactionRecord *wtx) cons
     switch(wtx->status.status)
     {
     case TransactionStatus::OpenUntilBlock:
-        status = tr("Open for %n more block(s)","",wtx->status.open_for);
+        status = tr("Open for %n block(s)","",wtx->status.open_for);
         break;
     case TransactionStatus::OpenUntilDate:
         status = tr("Open until %1").arg(GUIUtil::dateTimeStr(wtx->status.open_for));
@@ -294,6 +295,7 @@ QString TransactionTableModel::formatTxStatus(const TransactionRecord *wtx) cons
         status = tr("Confirmed (%1 confirmations)").arg(wtx->status.depth);
         break;
     }
+
     if(wtx->type == TransactionRecord::Generated)
     {
         switch(wtx->status.maturity)
@@ -572,8 +574,7 @@ QVariant TransactionTableModel::data(const QModelIndex &index, int role) const
         return QString::fromStdString(rec->getTxID());
     case ConfirmedRole:
         // Return True if transaction counts for balance
-        return rec->status.confirmed && !(rec->type == TransactionRecord::Generated &&
-                                          rec->status.maturity != TransactionStatus::Mature);
+        return rec->status.confirmed && !(rec->type == TransactionRecord::Generated && rec->status.maturity != TransactionStatus::Mature);
     case FormattedAmountRole:
         return formatTxAmount(rec, false);
     }

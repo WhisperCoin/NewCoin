@@ -1,74 +1,62 @@
-NewCoin integration/staging tree
-================================
+Flutter Coin (FLT)
 
-http://www.NewCoin.org
+Scrypt Proof of Work/Proof of Stake Hybrid with Address Hash Mining
 
-Copyright (c) 2009-2013 Bitcoin Developers
-Copyright (c) 2011-2013 NewCoin Developers
+Earn Flutter Coins through Proof-Of-Work, Proof-Of-Stake, or Proof-Of-Transaction mining.
 
-What is NewCoin?
-----------------
+Butterfly Effect: The phenomenon whereby a minute localized change in a complex system can have large effects elsewhere.
 
-NewCoin is a lite version of Bitcoin using scrypt as a proof-of-work algorithm.
- - 2.5 minute block targets
- - subsidy halves in 840k blocks (~4 years)
- - ~84 million total coins
+Such is the design of Flutter Coin. Proof of Block Mining (POT) - a feature only found in Flutter Coin, creates more opportunity for such chaos. For ex-
+ample, someone sending 1000 FLT to an ecommerce site for 1 widget, could be rewarded 2000 FLT via POT, enabling this person to possibly buy an additional 2
+widgets, thus enabling the ecommerce site owner to use the proceeds to buy goods or services from another party, and the ripple effects continue... 
 
-The rest is the same as Bitcoin.
- - 50 coins per block
- - 2016 blocks to retarget difficulty
+Random Proof-Of-Work Mining (POW) Rewards (halving every 262,800 blocks)
+             MAX  MIN
+    Year 1: 1000 10000*
+    Year 2:  500 5000
+    Year 3:  250 2500
+    Year 4:  124 1250
+    Year 5:   62 624
+    Year 6:   30 312
+    Year 7:   14 156
+    Year 8 on: 50
+*(prior to block 3263: 500 5000)
+	
+There is no maximum number of coins, proof of work for the first 7 years is roughly a minimum 500 million and maximum 5 billion.
 
-For more information, as well as an immediately useable, binary version of
-the NewCoin client sofware, see http://www.NewCoin.org.
+Proof-Of-Stake Mining (POS) - variable interest based on coin age
 
-License
--------
+Proof-Of-Transaction Mining (POT) - Mining by matching address segment to block hash (on tansactions greater than 500 coins), 50% of the block subsidy
 
-NewCoin is released under the terms of the MIT license. See `COPYING` for more
-information or see http://opensource.org/licenses/MIT.
+Increased security on Proof-of-Work blocks though verification of coinbase tx value, size, and destinations of coinbase transactions via Proof-Of-Transaction checking.
 
-Development process
--------------------
+Default P2P Port: 7408
+Default RPC Port: 7474
 
-Developers work in their own trees, then submit pull requests when they think
-their feature or bug fix is ready.
+It is recomended that you use the official builds, only from the official Github repository to minimize the chance of malware, and ensure you are using the correct dependencies.
 
-If it is a simple/trivial/non-controversial change, then one of the NewCoin
-development team members simply pulls it.
+All binaries built using gitian builder on custom Ubuntu 12 VM's for consistency of versions.
 
-If it is a *more complicated or potentially controversial* change, then the patch
-submitter will be asked to start a discussion (if they haven't already) on the
-[mailing list](http://sourceforge.net/mailarchive/forum.php?forum_name=bitcoin-development).
+If you wish to build manually:
 
-The patch will be accepted if there is broad consensus that it is a good thing.
-Developers should expect to rework and resubmit patches if the code doesn't
-match the project's coding conventions (see `doc/coding.txt`) or are
-controversial.
+Build Dependencies - Please to not use other versions
 
-The `master` branch is regularly built and tested, but is not guaranteed to be
-completely stable. [Tags](https://github.com/bitcoin/bitcoin/tags) are created
-regularly to indicate new official, stable release versions of NewCoin.
+- "openssl-1.0.1f.tar.gz"
+- "db-6.0.20.NC.tar.gz"
+- "miniupnpc-1.8.tar.gz"
+- "zlib-1.2.8.tar.gz"
+- "libpng-1.6.8.tar.gz"
+- "qrencode-3.4.3.tar.bz2"
+- "boost_1_55_0.tar.bz2"
+- "boost-mingw-gas-cross-compile-2013-03-03.patch"
+- "qt-everywhere-opensource-src-4.8.3.tar.gz"
 
-Testing
--------
+NOTE: For building on Linux, use the file makefile.linux (not the traditional makefile.unix)
 
-Testing and code review is the bottleneck for development; we get more pull
-requests than we can review and test. Please be patient and help out, and
-remember this is a security-critical project where any mistake might cost people
-lots of money.
 
-### Automated Testing
 
-Developers are strongly encouraged to write unit tests for new code, and to
-submit new unit tests for old code.
 
-Unit tests for the core code are in `src/test/`. To compile and run them:
 
-    cd src; make -f makefile.unix test
 
-Unit tests for the GUI code are in `src/qt/test/`. To compile and run them:
 
-    qmake BITCOIN_QT_TEST=1 -o Makefile.test bitcoin-qt.pro
-    make -f Makefile.test
-    ./NewCoin-qt_test
 

@@ -2,9 +2,6 @@
 // Alert system
 //
 
-#include <algorithm>
-#include <boost/algorithm/string/classification.hpp>
-#include <boost/algorithm/string/replace.hpp>
 #include <boost/foreach.hpp>
 #include <map>
 
@@ -19,8 +16,10 @@ using namespace std;
 map<uint256, CAlert> mapAlerts;
 CCriticalSection cs_mapAlerts;
 
-static const char* pszMainKey = "040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9";
-static const char* pszTestKey = "04302390343f91cc401d56d68b123028bf52e5fca1939df127f63c6467cdf9c8e2c14b61104cf817d0b780da337893ecc4aaff1309e536162dabbdb45200ca2b0a";
+static const char* pszMainKey = "049b3c00249474820bc073896202bf04448e4391e445149b077d6eacccb9902d1b15e891fd8d24bfa43ccef05707797c6871292e145acbec6017d7d818b3748579";
+
+// TestNet alerts pubKey
+static const char* pszTestKey = "044d5253cb7c6fcb7b790365ac5aeeef359fc52de23f1ce9bffc092c16dd0372444b75ba328ddf4ebb73257e7c882c9bf81d86d1938ad36ac280214ba72aa9aca6";
 
 void CUnsignedAlert::SetNull()
 {
@@ -144,7 +143,9 @@ bool CAlert::RelayTo(CNode* pnode) const
 
 bool CAlert::CheckSignature() const
 {
-    CPubKey key(ParseHex(fTestNet ? pszTestKey : pszMainKey));
+    CKey key;
+    if (!key.SetPubKey(ParseHex(fTestNet ? pszTestKey : pszMainKey)))
+        return error("CAlert::CheckSignature() : SetPubKey failed");
     if (!key.Verify(Hash(vchMsg.begin(), vchMsg.end()), vchSig))
         return error("CAlert::CheckSignature() : verify signature failed");
 
@@ -166,7 +167,7 @@ CAlert CAlert::getAlertByHash(const uint256 &hash)
     return retval;
 }
 
-bool CAlert::ProcessAlert(bool fThread)
+bool CAlert::ProcessAlert()
 {
     if (!CheckSignature())
         return false;
@@ -230,27 +231,9 @@ bool CAlert::ProcessAlert(bool fThread)
 
         // Add to mapAlerts
         mapAlerts.insert(make_pair(GetHash(), *this));
-        // Notify UI and -alertnotify if it applies to me
+        // Notify UI if it applies to me
         if(AppliesToMe())
-        {
             uiInterface.NotifyAlertChanged(GetHash(), CT_NEW);
-            std::string strCmd = GetArg("-alertnotify", "");
-            if (!strCmd.empty())
-            {
-                // Alert text should be plain ascii coming from a trusted source, but to
-                // be safe we first strip anything not in safeChars, then add single quotes around
-                // the whole string before passing it to the shell:
-                std::string singleQuote("'");
-                std::string safeStatus = SanitizeString(strStatusBar);
-                safeStatus = singleQuote+safeStatus+singleQuote;
-                boost::replace_all(strCmd, "%s", safeStatus);
-
-                if (fThread)
-                    boost::thread t(runCommand, strCmd); // thread runs free
-                else
-                    runCommand(strCmd);
-            }
-        }
     }
 
     printf("accepted alert %d, AppliesToMe()=%d\n", nID, AppliesToMe());
