@@ -263,13 +263,7 @@ inline uint256 Hash(const T1 p1begin, const T1 p1end,
     return CombineHashes(hash2, hash3, hash4, hash5);
 }
 
-template<typename T>
-uint256 SerializeHash(const T& obj, int nType=SER_GETHASH, int nVersion=PROTOCOL_VERSION)
-{
-    CHashWriter ss(nType, nVersion);
-    ss << obj;
-    return ss.GetHash();
-}
+
 
 inline uint160 Hash160(const std::vector<unsigned char>& vch)
 {
